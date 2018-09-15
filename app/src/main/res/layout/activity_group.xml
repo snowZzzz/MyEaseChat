@@ -11,10 +11,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="群组创建页面"/>
+        android:text="群组创建页面" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:background="@color/colorAccent"/>
+        android:background="@color/colorAccent" />
+
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="群名称" />
+
+    <EditText
+        android:id="@+id/edit_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="群简介" />
+
+    <Button
+        android:id="@+id/btn_create_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="创建群组" />
 </LinearLayout>
