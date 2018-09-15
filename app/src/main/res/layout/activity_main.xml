@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="net.melove.demo.easechat.act.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/ec_edit_chat_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="对方的username"/>
+
+        <Button
+            android:id="@+id/ec_btn_start_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="发起聊天"/>
+
+        <Button
+            android:id="@+id/ec_btn_sign_out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="退出登录"/>
+
+        <Button
+            android:id="@+id/ec_btn_get_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="获取好友列表"/>
+
+        <Button
+            android:id="@+id/ec_btn_add_friend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="添加好友"/>
+
+        <TextView
+            android:id="@+id/ec_tv_invite_friend"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="展示好友邀请的username"/>
+
+        <Button
+            android:id="@+id/ec_btn_get_friend_invite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="获取好友邀请信息"/>
+
+        <Button
+            android:id="@+id/ec_btn_get_convertion_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="获取会话列表"/>
+
+        <Button
+            android:id="@+id/ec_btn_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="群操作"/>
+    </LinearLayout>
+</RelativeLayout>
