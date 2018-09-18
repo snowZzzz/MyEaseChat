@@ -3,6 +3,7 @@ package net.melove.demo.easechat.easyutils;
 import android.content.Context;
 
 import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMGroupOptions;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.exceptions.HyphenateException;
@@ -14,10 +15,9 @@ import java.util.List;
 
 /**
  * Created by zhangzz on 2018/9/14
+ * 环信各种api定义接口
  */
 public interface EMInterface {
-    void initEMOptions(Context context);//sdk的初始化
-
     void createAccount(String username, String pwd) throws HyphenateException;//注册
 
     void login(String userName, String password,  MyCallBackImpl callback);//登录
@@ -41,6 +41,10 @@ public interface EMInterface {
     void sendMessage(EMMessage message);//发送消息
 
     void createGroup(String groupName, String desc, String[] allMembers, String reason, EMGroupOptions option) throws HyphenateException;//创建群组
+
+    List<EMGroup> getJoinedGroupsFromServer() throws HyphenateException;//获取群组列表
+
+    List<EMGroup> getAllGroups();//从本地加载群组列表
 
     void logout(boolean unbindToken, MyCallBackImpl callback);//退出登录
 }

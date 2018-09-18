@@ -1,10 +1,12 @@
 package net.melove.demo.easechat.act;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
+import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hyphenate.chat.EMClient;
@@ -25,22 +27,13 @@ import java.util.Map;
 public class ConversationActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     BaseQuickAdapter converAdapter;
+    MyEMMessageListener myEMMessageListener;
+    List<EMConversation> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
-
-        MyEMMessageListener myEMMessageListener = new MyEMMessageListener() {
-            @Override
-            public void onMessageReceived(List<EMMessage> messages) {
-                super.onMessageReceived(messages);
-                // notify new message
-                converAdapter.addData(loadConversationList());
-            }
-        };
-
-        EasyUtil.getEmManager().addMessageListener(myEMMessageListener);
         mRecyclerView = findViewById(R.id.rv_force_record);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setNestedScrollingEnabled(false);
@@ -48,9 +41,43 @@ public class ConversationActivity extends AppCompatActivity {
         converAdapter = new ConverAdapter(R.layout.layout_records_item);
         converAdapter.openLoadAnimation();
         mRecyclerView.setAdapter(converAdapter);
+
+        converAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (list != null && list.size() > 0) {
+                    Intent intent = new Intent(ConversationActivity.this, ChatActivity.class);
+                    intent.putExtra("ec_chat_id", list.get(position).conversationId());
+                    startActivity(intent);
+                }
+            }
+        });
+
+        myEMMessageListener = new MyEMMessageListener() {
+            @Override
+            public void onMessageReceived(List<EMMessage> messages) {
+                super.onMessageReceived(messages);
+                // notify new message
+                list = loadConversationList();
+                converAdapter.addData(list);
+            }
+        };
+
+        findViewById(R.id.tv_get_convertions).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EasyUtil.getEmManager().addMessageListener(myEMMessageListener);
+            }
+        });
     }
 
-    protected List<EMConversation> loadConversationList(){
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EasyUtil.getEmManager().removeMessageListener(myEMMessageListener);
+    }
+
+    protected List<EMConversation> loadConversationList() {
         // get all conversations
         Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
         List<Pair<Long, EMConversation>> sortList = new ArrayList<Pair<Long, EMConversation>>();

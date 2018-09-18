@@ -9,8 +9,10 @@
     tools:context=".act.ConversationActivity">
 
     <TextView
+        android:id="@+id/tv_get_convertions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:gravity="center"
         android:text="获取聊天目录页面"/>
 

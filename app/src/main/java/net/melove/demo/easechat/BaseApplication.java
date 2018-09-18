@@ -4,7 +4,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
-import net.melove.demo.easechat.easyutils.EasyUtil;
+import net.melove.demo.easechat.easyutils.EasyHelper;
 
 import java.util.Iterator;
 import java.util.List;
@@ -50,7 +50,7 @@ public class BaseApplication extends Application {
         }
 
         // 调用初始化方法初始化sdk
-        EasyUtil.getEmManager().initEMOptions(mContext);
+        EasyHelper.getInstance().init(mContext);
 
         // 设置初始化已经完成
         isInit = true;

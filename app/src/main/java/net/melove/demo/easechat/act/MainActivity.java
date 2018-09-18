@@ -12,14 +12,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 import com.hyphenate.exceptions.HyphenateException;
 
 import net.melove.demo.easechat.R;
 import net.melove.demo.easechat.bean.InviteMessage;
+import net.melove.demo.easechat.bean.ItemModel;
+import net.melove.demo.easechat.easyutils.EaseNotifier;
 import net.melove.demo.easechat.easyutils.emlisenter.MyCallBackImpl;
 import net.melove.demo.easechat.easyutils.EasyUtil;
 import net.melove.demo.easechat.utils.DataCacheUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -48,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
             return;
         }
-
         setContentView(R.layout.activity_main);
 
         initView();
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
                     // 跳转到聊天界面，开始聊天
-                    Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                    Intent intent = new Intent(MainActivity.this, ChatActivity2.class);
                     intent.putExtra("ec_chat_id", chatId);
                     startActivity(intent);
                 } else {
@@ -171,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.ec_btn_group).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                startActivity(new Intent(MainActivity.this, GroupActivity.class));
             }
         });
     }
@@ -196,4 +199,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }

@@ -2,6 +2,7 @@ package net.melove.demo.easechat.easyutils;
 
 /**
  * Created by zhangzz on 2018/9/14
+ * 不同第三方库的实例获取 目前仅有环信的api代理类
  */
 public class EasyUtil {
     /* 使用入口：获取EasyUI操作管理类实例

@@ -24,6 +24,6 @@ public class ConverAdapter extends BaseQuickAdapter<EMConversation, BaseViewHold
         EMTextMessageBody body = (EMTextMessageBody) lastMessage.getBody();
         baseViewHolder.setText(R.id.tv_days_got, username);
         baseViewHolder.setText(R.id.tv_days_time, body.getMessage());
-        baseViewHolder.setText(R.id.tv_gold_nums, lastMessage.getMsgTime()+"");
+        baseViewHolder.setText(R.id.tv_gold_nums, conversation.getUnreadMsgCount()+"");
     }
 }
