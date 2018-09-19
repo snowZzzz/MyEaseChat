@@ -7,11 +7,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.chat.EMTextMessageBody;
 
 import net.melove.demo.easechat.R;
 import net.melove.demo.easechat.adapter.ConverAdapter;
@@ -28,7 +30,7 @@ public class ConversationActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     BaseQuickAdapter converAdapter;
     MyEMMessageListener myEMMessageListener;
-    List<EMConversation> list;
+    List<EMConversation> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,7 @@ public class ConversationActivity extends AppCompatActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (list != null && list.size() > 0) {
-                    Intent intent = new Intent(ConversationActivity.this, ChatActivity.class);
+                    Intent intent = new Intent(ConversationActivity.this, ChatActivity2.class);
                     intent.putExtra("ec_chat_id", list.get(position).conversationId());
                     startActivity(intent);
                 }
@@ -58,17 +60,26 @@ public class ConversationActivity extends AppCompatActivity {
             public void onMessageReceived(List<EMMessage> messages) {
                 super.onMessageReceived(messages);
                 // notify new message
-                list = loadConversationList();
-                converAdapter.addData(list);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        list.clear();
+                        list = loadConversationList();
+                        converAdapter.setNewData(list);
+                    }
+                });
             }
         };
+
 
         findViewById(R.id.tv_get_convertions).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EasyUtil.getEmManager().addMessageListener(myEMMessageListener);
+
             }
         });
+
+        EasyUtil.getEmManager().addMessageListener(myEMMessageListener);
     }
 
     @Override

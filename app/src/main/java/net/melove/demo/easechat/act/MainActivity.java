@@ -101,20 +101,21 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.ec_btn_get_list).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Task.callInBackground(new Callable<List<String>>() {
-                    @Override
-                    public List<String> call() throws Exception {
-                        List<String> usernames = null;
-                        usernames = EasyUtil.getEmManager().getAllContactsFromServer();
-                        return usernames;
-                    }
-                }).continueWith(new Continuation<List<String>, Object>() {
-                    @Override
-                    public Object then(Task<List<String>> task) throws Exception {
-                        ec_tv_invite_friend.setText(task.getResult().toString());
-                        return null;
-                    }
-                }, Task.UI_THREAD_EXECUTOR);
+                startActivity(new Intent(MainActivity.this, FriendListActivity.class));
+//                Task.callInBackground(new Callable<List<String>>() {
+//                    @Override
+//                    public List<String> call() throws Exception {
+//                        List<String> usernames = null;
+//                        usernames = EasyUtil.getEmManager().getAllContactsFromServer();
+//                        return usernames;
+//                    }
+//                }).continueWith(new Continuation<List<String>, Object>() {
+//                    @Override
+//                    public Object then(Task<List<String>> task) throws Exception {
+//                        ec_tv_invite_friend.setText(task.getResult().toString());
+//                        return null;
+//                    }
+//                }, Task.UI_THREAD_EXECUTOR);
             }
         });
 

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMGroupOptions;
 import com.hyphenate.chat.EMMessage;
@@ -14,6 +15,7 @@ import net.melove.demo.easechat.easyutils.emlisenter.MyCallBackImpl;
 import net.melove.demo.easechat.easyutils.emlisenter.MyContactListener;
 import net.melove.demo.easechat.easyutils.emlisenter.MyEMMessageListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -82,6 +84,7 @@ public class EMInterfaceImpl implements EMInterface {
 
     /**
      * 同意好友请求
+     *
      * @param username
      */
     @Override
@@ -91,6 +94,7 @@ public class EMInterfaceImpl implements EMInterface {
 
     /**
      * 拒绝好友请求
+     *
      * @param username
      */
     @Override
@@ -100,6 +104,7 @@ public class EMInterfaceImpl implements EMInterface {
 
     /**
      * 通过注册消息监听来接收消息。
+     *
      * @param myEMMessageListener
      */
     @Override
@@ -109,6 +114,7 @@ public class EMInterfaceImpl implements EMInterface {
 
     /**
      * 在不需要的时候移除listener，如在activity的onDestroy()时
+     *
      * @param myEMMessageListener
      */
     @Override
@@ -130,6 +136,7 @@ public class EMInterfaceImpl implements EMInterface {
 
     /**
      * //创建一条文本消息，content为消息文字内容，toChatUsername为对方用户或者群聊的id
+     *
      * @param content
      * @param toChatUsername
      * @return
@@ -142,6 +149,7 @@ public class EMInterfaceImpl implements EMInterface {
 
     /**
      * 发送消息
+     *
      * @param message
      */
     @Override
@@ -151,13 +159,14 @@ public class EMInterfaceImpl implements EMInterface {
 
     /**
      * 创建群组
-     * @param groupName 群组名称
-     * @param desc 群组简介
+     *
+     * @param groupName  群组名称
+     * @param desc       群组简介
      * @param allMembers 群组初始成员，如果只有自己传空数组即可
-     * @param reason 邀请成员加入的reason
-     * @param option 群组类型选项，可以设置群组最大用户数(默认200)及群组类型
-     *               option.inviteNeedConfirm表示邀请对方进群是否需要对方同意，默认是需要用户同意才能加群的。
-     *               option.extField创建群时可以为群组设定扩展字段，方便个性化订制。
+     * @param reason     邀请成员加入的reason
+     * @param option     群组类型选项，可以设置群组最大用户数(默认200)及群组类型
+     *                   option.inviteNeedConfirm表示邀请对方进群是否需要对方同意，默认是需要用户同意才能加群的。
+     *                   option.extField创建群时可以为群组设定扩展字段，方便个性化订制。
      * @return 创建好的group
      * @throws HyphenateException
      */
@@ -169,6 +178,7 @@ public class EMInterfaceImpl implements EMInterface {
     /**
      * 从服务器获取自己加入的和创建的群组列表，此api获取的群组sdk会自动保存到内存和db。
      * 需异步处理;
+     *
      * @return
      */
     @Override
@@ -178,11 +188,99 @@ public class EMInterfaceImpl implements EMInterface {
 
     /**
      * 从本地加载群组列表
+     *
      * @return
      */
     @Override
     public List<EMGroup> getAllGroups() {
         return EMClient.getInstance().groupManager().getAllGroups();
+    }
+
+    /**
+     * 根据群组ID从本地获取群组基本信息
+     *
+     * @param groupId
+     */
+    @Override
+    public EMGroup getGroup(String groupId) {
+        return EMClient.getInstance().groupManager().getGroup(groupId);
+    }
+
+    /**
+     * 根据群组ID从服务器获取群组基本信息
+     * <p>
+     * 获取单个群组信息。getGroupFromServer(groupId)返回结果包含群组名称，群描述，群主，管理员列表，不包含群成员。
+     * <p>
+     * v getGroupFromServer(String groupId, boolean fetchMembers)，如果fetchMembers为true，取群组信息的时候也会获取群成员，最大数200人。
+     * <p>
+     * group.getOwner();//获取群主
+     * List<String> members = group.getMembers();//获取内存中的群成员
+     * List<String> adminList = group.getAdminList();//获取管理员列表
+     *
+     * @param groupId
+     * @param fetchMembers
+     */
+    @Override
+    public EMGroup getGroupFromServer(String groupId, boolean fetchMembers) throws HyphenateException {
+        return EMClient.getInstance().groupManager().getGroupFromServer(groupId, fetchMembers);
+    }
+
+    @Override
+    public void addUsersToGroup(String groupId, String[] newmembers) {
+
+    }
+
+    /**
+     * 获取完整的群成员列表,如果群成员较多，需要多次从服务器获取完成
+     *
+     * @param groupId
+     * @param cursor
+     * @param pageSize
+     * @return
+     * @throws HyphenateException
+     */
+    @Override
+    public EMCursorResult<String> fetchGroupMembers(String groupId, String cursor, int pageSize) throws HyphenateException {
+        return EMClient.getInstance().groupManager().fetchGroupMembers(groupId, cursor, pageSize);
+    }
+
+    /**
+     * 获取全部群成员列表 这里把获取列表处理了
+     *
+     * @param groupId
+     * @return
+     */
+    @Override
+    public List<String> getGroupMembers(String groupId) throws HyphenateException {
+        List<String> memberList = new ArrayList<>();
+        EMCursorResult<String> result = null;
+        do {
+            // page size set to 20 is convenient for testing, should be applied to big value
+            result = EasyUtil.getEmManager().fetchGroupMembers(groupId, result != null ? result.getCursor() : "", 20);
+            memberList.addAll(result.getData());
+        } while (result.getCursor() != null && !result.getCursor().isEmpty());
+        return memberList;
+    }
+
+    /**
+     * 如果群开群是自由加入的，即group.isMembersOnly()为false，直接join
+     * 需异步处理
+     * @param groupid
+     */
+    @Override
+    public void joinGroup(String groupid) throws HyphenateException {
+        EMClient.getInstance().groupManager().joinGroup(groupid);
+    }
+
+    /**
+     * 需要申请和验证才能加入的，即group.isMembersOnly()为true，调用下面方法
+     * 需异步处理
+     * @param groupid
+     * @param joinReason
+     */
+    @Override
+    public void applyJoinToGroup(String groupid, String joinReason) throws HyphenateException {
+        EMClient.getInstance().groupManager().applyJoinToGroup(groupid, joinReason);
     }
 
     /**

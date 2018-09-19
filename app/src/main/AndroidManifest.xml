@@ -85,10 +85,11 @@
         <service
             android:name="com.hyphenate.chat.EMChatService"
             android:exported="true" />
-        <!--  声明sdk所需的receiver-->
+        <!-- 声明sdk所需的receiver -->
         <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
             <!-- 可选filter -->
@@ -99,7 +100,11 @@
         </receiver>
 
         <activity android:name=".act.ConversationActivity" />
-        <activity android:name=".act.GroupActivity"></activity>
+        <activity android:name=".act.GroupActivity" />
+        <activity android:name=".act.FriendListActivity" />
+        <activity android:name=".act.ChatGroupActivity" />
+        <activity android:name=".act.GroupDetailActivity" />
+        <activity android:name=".act.GroupSearchActivity"></activity>
     </application>
 
 </manifest>

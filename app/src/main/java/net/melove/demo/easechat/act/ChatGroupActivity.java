@@ -1,6 +1,7 @@
 package net.melove.demo.easechat.act;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -32,12 +34,14 @@ import net.melove.demo.easechat.easyutils.emlisenter.MyEMMessageListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChatActivity2 extends AppCompatActivity {
+public class ChatGroupActivity extends AppCompatActivity {
 
     // 聊天信息输入框
     private EditText mInputEdit;
     // 发送按钮
     private TextView mSendBtn;
+    private Button btn_members;
+    private TextView tv_group_name;
 
     private RecyclerView recyclerView;
     private ChatAdapter adapter;
@@ -45,6 +49,8 @@ public class ChatActivity2 extends AppCompatActivity {
 
     // 当前聊天的 ID
     private String mChatId;
+
+    private String groupName;
     // 当前会话对象
     private EMConversation mConversation;
 
@@ -57,10 +63,12 @@ public class ChatActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat2);
+        setContentView(R.layout.activity_chat_group);
 
         // 获取当前会话的username(如果是群聊就是群id)
-        mChatId = getIntent().getStringExtra("ec_chat_id");
+        mChatId = getIntent().getStringExtra("ec_chat_group_id");
+        groupName = getIntent().getStringExtra("ec_chat_group_name");
+
         currUsername = EMClient.getInstance().getCurrentUser();
 
         models = new ArrayList<>();
@@ -80,6 +88,9 @@ public class ChatActivity2 extends AppCompatActivity {
         mInputEdit = (EditText) findViewById(R.id.et);
         mSendBtn = (TextView) findViewById(R.id.tvSend);
         recyclerView = (RecyclerView) findViewById(R.id.recylerView);
+        btn_members = findViewById(R.id.btn_members);
+        tv_group_name = findViewById(R.id.tv_group_name);
+        tv_group_name.setText(groupName);
 
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -96,7 +107,7 @@ public class ChatActivity2 extends AppCompatActivity {
                     mInputEdit.setText("");
                     // 创建一条新消息，第一个参数为消息内容，第二个为接受者username:为对方用户或者群聊的id
                     EMMessage message = EasyUtil.getEmManager().createTxtSendMessage(content, mChatId);
-
+                    message.setChatType(EMMessage.ChatType.GroupChat);
                     //如果是群聊，设置chattype，默认是单聊
 //                    if (chatType == CHATTYPE_GROUP)
 //                        message.setChatType(ChatType.GroupChat);
@@ -142,6 +153,15 @@ public class ChatActivity2 extends AppCompatActivity {
                 }
             }
         });
+
+        btn_members.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChatGroupActivity.this, GroupDetailActivity.class);
+                intent.putExtra("groupId", mChatId);
+                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -156,9 +176,6 @@ public class ChatActivity2 extends AppCompatActivity {
          * 第三个表示如果会话不存在是否创建
          */
         mConversation = EasyUtil.getEmManager().getConversation(mChatId, null, true);
-//        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(mChatId);
-////获取此会话的所有消息
-//        List<EMMessage> messages = conversation.getAllMessages();
         // 设置当前会话未读数为 0
         mConversation.markAllMessagesAsRead();
         int count = mConversation.getAllMessages().size();
@@ -174,11 +191,11 @@ public class ChatActivity2 extends AppCompatActivity {
             for (EMMessage message : emMessages) {
                 ChatModel model = new ChatModel();
                 EMTextMessageBody body = (EMTextMessageBody) message.getBody();
-                if (!message.getFrom().equals(currUsername)) {
+                if (message.getTo().equals(mChatId) && !message.getFrom().equals(currUsername)) {
                     model.setContent(body.getMessage());
                     model.setIcon("http://img.my.csdn.net/uploads/201508/05/1438760758_3497.jpg");
                     models.add(new ItemModel(ItemModel.CHAT_A, model));
-                } else {
+                } else if (message.getTo().equals(mChatId)){
                     model.setContent(body.getMessage());
                     model.setIcon("http://img.my.csdn.net/uploads/201508/05/1438760758_6667.jpg");
                     models.add(new ItemModel(ItemModel.CHAT_B, model));
@@ -247,7 +264,7 @@ public class ChatActivity2 extends AppCompatActivity {
                 // 循环遍历当前收到的消息
                 for (EMMessage message : messages) {
                     Log.i("yyl", "收到新消息:" + message);
-                    if (message.getFrom().equals(mChatId)) {
+                    if (message.getTo().equals(mChatId)) {
                         // 设置消息为已读
                         mConversation.markMessageAsRead(message.getMsgId());
 
