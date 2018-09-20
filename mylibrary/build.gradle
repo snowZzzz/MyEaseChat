@@ -33,4 +33,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    api 'com.hyphenate:hyphenate-sdk:3.4.0'
+    api 'com.google.code.gson:gson:2.8+'
+    api 'io.reactivex.rxjava2:rxjava:2.2.2'
+    api 'com.parse.bolts:bolts-android:1.4.0'
+    api 'com.android.support.constraint:constraint-layout:1.1.3'
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
+    api 'com.android.support:design:27+'
+    api 'com.squareup.picasso:picasso:2.3.2'
 }

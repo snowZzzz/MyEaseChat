@@ -1,14 +1,12 @@
 package net.melove.demo.easechat.adapter;
 
-import android.view.View;
 import android.widget.CompoundButton;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.hyphenate.chat.EMGroup;
+import com.trade.beauty.mylibrary.bean.FriendBean;
 
 import net.melove.demo.easechat.R;
-import net.melove.demo.easechat.bean.FriendBean;
 
 import java.util.List;
 

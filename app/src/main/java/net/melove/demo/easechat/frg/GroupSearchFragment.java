@@ -3,9 +3,7 @@ package net.melove.demo.easechat.frg;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -15,13 +13,11 @@ import com.hyphenate.chat.EMGroupInfo;
 
 import net.melove.demo.easechat.R;
 import net.melove.demo.easechat.act.GroupSearchActivity;
-import net.melove.demo.easechat.adapter.FriendListAdapter;
 import net.melove.demo.easechat.adapter.GroupPublicListAdapter;
-import net.melove.demo.easechat.base.BaseFragment;
-import net.melove.demo.easechat.bean.FriendBean;
+
+import com.trade.beauty.mylibrary.base.BaseFragment;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.Callable;
 
 import bolts.Continuation;

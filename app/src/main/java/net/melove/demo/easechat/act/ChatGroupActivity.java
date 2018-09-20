@@ -24,12 +24,12 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
 
 import net.melove.demo.easechat.R;
-import net.melove.demo.easechat.adapter.ChatAdapter;
-import net.melove.demo.easechat.bean.ChatModel;
-import net.melove.demo.easechat.bean.ItemModel;
-import net.melove.demo.easechat.easyutils.EaseNotifier;
-import net.melove.demo.easechat.easyutils.EasyUtil;
-import net.melove.demo.easechat.easyutils.emlisenter.MyEMMessageListener;
+import com.trade.beauty.mylibrary.adapter.ChatAdapter;
+import com.trade.beauty.mylibrary.bean.ChatModel;
+import com.trade.beauty.mylibrary.bean.ItemModel;
+import com.trade.beauty.mylibrary.easyutils.EaseNotifier;
+import com.trade.beauty.mylibrary.easyutils.EasyUtil;
+import com.trade.beauty.mylibrary.easyutils.emlisenter.MyEMMessageListener;
 
 import java.util.ArrayList;
 import java.util.List;

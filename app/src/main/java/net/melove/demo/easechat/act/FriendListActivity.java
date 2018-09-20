@@ -10,13 +10,12 @@ import android.widget.Button;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMGroup;
 
 import net.melove.demo.easechat.R;
 import net.melove.demo.easechat.adapter.FriendListAdapter;
-import net.melove.demo.easechat.adapter.GroupAdapter;
-import net.melove.demo.easechat.bean.FriendBean;
-import net.melove.demo.easechat.easyutils.EasyUtil;
+
+import com.trade.beauty.mylibrary.bean.FriendBean;
+import com.trade.beauty.mylibrary.easyutils.EasyUtil;
 
 import java.util.ArrayList;
 import java.util.List;

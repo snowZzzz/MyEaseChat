@@ -12,19 +12,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMMessage;
 import com.hyphenate.exceptions.HyphenateException;
 import com.trade.beauty.mylibrary.FFFActivity;
 
 import net.melove.demo.easechat.R;
-import net.melove.demo.easechat.bean.InviteMessage;
-import net.melove.demo.easechat.bean.ItemModel;
-import net.melove.demo.easechat.easyutils.EaseNotifier;
-import net.melove.demo.easechat.easyutils.emlisenter.MyCallBackImpl;
-import net.melove.demo.easechat.easyutils.EasyUtil;
-import net.melove.demo.easechat.utils.DataCacheUtil;
+import com.trade.beauty.mylibrary.bean.InviteMessage;
+import com.trade.beauty.mylibrary.easyutils.emlisenter.MyCallBackImpl;
+import com.trade.beauty.mylibrary.easyutils.EasyUtil;
+import com.trade.beauty.mylibrary.utils.DataCacheUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -82,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         return;
                     }
                     // 跳转到聊天界面，开始聊天
-                    Intent intent = new Intent(MainActivity.this, ChatActivity2.class);
+                    Intent intent = new Intent(MainActivity.this, ChatActivity.class);
                     intent.putExtra("ec_chat_id", chatId);
                     startActivity(intent);
                 } else {

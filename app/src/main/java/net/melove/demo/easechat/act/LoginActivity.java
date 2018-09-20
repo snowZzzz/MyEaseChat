@@ -16,8 +16,8 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 
 import net.melove.demo.easechat.R;
-import net.melove.demo.easechat.easyutils.emlisenter.MyCallBackImpl;
-import net.melove.demo.easechat.easyutils.EasyUtil;
+import com.trade.beauty.mylibrary.easyutils.emlisenter.MyCallBackImpl;
+import com.trade.beauty.mylibrary.easyutils.EasyUtil;
 
 public class LoginActivity extends AppCompatActivity {
     // 弹出框

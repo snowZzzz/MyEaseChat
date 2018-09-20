@@ -3,19 +3,16 @@ package net.melove.demo.easechat.act;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMGroup;
-import com.hyphenate.util.EMLog;
 
 import net.melove.demo.easechat.R;
 import net.melove.demo.easechat.adapter.FriendListAdapter;
-import net.melove.demo.easechat.bean.FriendBean;
-import net.melove.demo.easechat.easyutils.EasyUtil;
+
+import com.trade.beauty.mylibrary.bean.FriendBean;
+import com.trade.beauty.mylibrary.easyutils.EasyUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;

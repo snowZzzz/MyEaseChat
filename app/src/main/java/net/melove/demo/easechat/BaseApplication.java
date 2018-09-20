@@ -4,7 +4,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 
-import net.melove.demo.easechat.easyutils.EasyHelper;
+import net.melove.demo.easechat.base.EasyHelper;
 
 import java.util.Iterator;
 import java.util.List;

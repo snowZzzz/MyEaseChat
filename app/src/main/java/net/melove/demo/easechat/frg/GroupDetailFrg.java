@@ -1,22 +1,15 @@
 package net.melove.demo.easechat.frg;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMGroup;
 import com.hyphenate.chat.EMGroupInfo;
-import com.hyphenate.exceptions.HyphenateException;
 
 import net.melove.demo.easechat.R;
-import net.melove.demo.easechat.base.BaseFragment;
-import net.melove.demo.easechat.easyutils.EasyUtil;
+import com.trade.beauty.mylibrary.base.BaseFragment;
+import com.trade.beauty.mylibrary.easyutils.EasyUtil;
 
-import java.util.List;
 import java.util.concurrent.Callable;
 
 import bolts.Continuation;

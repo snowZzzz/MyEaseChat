@@ -4,12 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.hyphenate.chat.EMGroupInfo;
-import com.trade.beauty.mylibrary.GroupFragment;
 
 import net.melove.demo.easechat.frg.GroupDetailFrg;
 import net.melove.demo.easechat.frg.GroupSearchFragment;
 import net.melove.demo.easechat.R;
-import net.melove.demo.easechat.utils.FragmentManagerUtil;
+import com.trade.beauty.mylibrary.utils.FragmentManagerUtil;
 
 public class GroupSearchActivity extends AppCompatActivity {
     FragmentManagerUtil fragmentManagerUtil;
@@ -22,7 +21,7 @@ public class GroupSearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_group_search);
         fragmentManagerUtil = new FragmentManagerUtil(this, R.id.layout_frame);
         groupSearchFragment = new GroupSearchFragment();
-        
+
         fragmentManagerUtil.chAddFrag(groupSearchFragment, "", false);
     }
 

@@ -7,18 +7,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMTextMessageBody;
 
 import net.melove.demo.easechat.R;
 import net.melove.demo.easechat.adapter.ConverAdapter;
-import net.melove.demo.easechat.easyutils.EasyUtil;
-import net.melove.demo.easechat.easyutils.emlisenter.MyEMMessageListener;
+
+import com.trade.beauty.mylibrary.easyutils.EasyUtil;
+import com.trade.beauty.mylibrary.easyutils.emlisenter.MyEMMessageListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +47,7 @@ public class ConversationActivity extends AppCompatActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 if (list != null && list.size() > 0) {
-                    Intent intent = new Intent(ConversationActivity.this, ChatActivity2.class);
+                    Intent intent = new Intent(ConversationActivity.this, ChatActivity.class);
                     intent.putExtra("ec_chat_id", list.get(position).conversationId());
                     startActivity(intent);
                 }

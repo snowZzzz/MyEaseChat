@@ -11,17 +11,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMGroup;
-import com.hyphenate.chat.EMGroupInfo;
 import com.hyphenate.chat.EMGroupManager;
 import com.hyphenate.chat.EMGroupOptions;
 import com.hyphenate.exceptions.HyphenateException;
 
 import net.melove.demo.easechat.R;
 import net.melove.demo.easechat.adapter.GroupAdapter;
-import net.melove.demo.easechat.easyutils.EasyUtil;
+
+import com.trade.beauty.mylibrary.easyutils.EasyUtil;
 
 import java.util.List;
 import java.util.concurrent.Callable;

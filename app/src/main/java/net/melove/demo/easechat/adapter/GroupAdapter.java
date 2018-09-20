@@ -2,10 +2,7 @@ package net.melove.demo.easechat.adapter;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMGroup;
-import com.hyphenate.chat.EMMessage;
-import com.hyphenate.chat.EMTextMessageBody;
 
 import net.melove.demo.easechat.R;
 
