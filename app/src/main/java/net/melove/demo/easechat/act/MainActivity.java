@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.exceptions.HyphenateException;
+import com.trade.beauty.mylibrary.FFFActivity;
 
 import net.melove.demo.easechat.R;
 import net.melove.demo.easechat.bean.InviteMessage;
@@ -175,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.ec_btn_group).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, GroupActivity.class));
+                startActivity(new Intent(MainActivity.this, FFFActivity.class));
             }
         });
     }

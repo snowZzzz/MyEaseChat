@@ -5,6 +5,7 @@ import android.content.Context;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMGroup;
+import com.hyphenate.chat.EMGroupInfo;
 import com.hyphenate.chat.EMGroupOptions;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.exceptions.HyphenateException;
@@ -60,6 +61,8 @@ public interface EMInterface {
     void joinGroup(String groupid) throws HyphenateException;//如果群开群是自由加入的，即group.isMembersOnly()为false，直接join，需异步处理
 
     void applyJoinToGroup(String groupid, String joinReason) throws HyphenateException;//需要申请和验证才能加入的，即group.isMembersOnly()为true，调用下面方法， 需异步处理
+
+    EMCursorResult<EMGroupInfo>  getPublicGroupsFromServer(int pagesize, String cursor) throws HyphenateException;//获取公开群列表, pageSize为要取到的群组的数量，cursor用于告诉服务器从哪里开始取
 
     void logout(boolean unbindToken, MyCallBackImpl callback);//退出登录
 }

@@ -6,6 +6,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMCursorResult;
 import com.hyphenate.chat.EMGroup;
+import com.hyphenate.chat.EMGroupInfo;
 import com.hyphenate.chat.EMGroupOptions;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMOptions;
@@ -281,6 +282,12 @@ public class EMInterfaceImpl implements EMInterface {
     @Override
     public void applyJoinToGroup(String groupid, String joinReason) throws HyphenateException {
         EMClient.getInstance().groupManager().applyJoinToGroup(groupid, joinReason);
+    }
+
+    @Override
+    public EMCursorResult<EMGroupInfo> getPublicGroupsFromServer(int pagesize, String cursor) throws HyphenateException {
+        EMCursorResult<EMGroupInfo> result = EMClient.getInstance().groupManager().getPublicGroupsFromServer(pagesize, cursor);
+        return result;
     }
 
     /**

@@ -28,31 +28,31 @@ import net.melove.demo.easechat.bean.ItemModel;
 import net.melove.demo.easechat.easyutils.EaseNotifier;
 import net.melove.demo.easechat.easyutils.EasyUtil;
 import net.melove.demo.easechat.easyutils.emlisenter.MyEMMessageListener;
+import net.melove.demo.easechat.frg.ChatFragment;
+import net.melove.demo.easechat.frg.GroupSearchFragment;
+import net.melove.demo.easechat.utils.FragmentManagerUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChatActivity2 extends AppCompatActivity {
-
-    // 聊天信息输入框
-    private EditText mInputEdit;
-    // 发送按钮
-    private TextView mSendBtn;
-
-    private RecyclerView recyclerView;
-    private ChatAdapter adapter;
-    ArrayList<ItemModel> models;
+    FragmentManagerUtil fragmentManagerUtil;
 
     // 当前聊天的 ID
     private String mChatId;
-    // 当前会话对象
-    private EMConversation mConversation;
 
     private MyEMMessageListener myEMMessageListener;//通过注册消息监听来接收消息。
 
     private EaseNotifier easeNotifier;
 
+    ArrayList<ItemModel> models;
+
+    // 当前会话对象
+    private EMConversation mConversation;
+
     private String currUsername;
+
+    ChatFragment chatFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,91 +63,81 @@ public class ChatActivity2 extends AppCompatActivity {
         mChatId = getIntent().getStringExtra("ec_chat_id");
         currUsername = EMClient.getInstance().getCurrentUser();
 
-        models = new ArrayList<>();
+        fragmentManagerUtil = new FragmentManagerUtil(this, R.id.layout_frame);
+        chatFragment = new ChatFragment();
 
-        initAddMsgLis();
-        initView();
-        initConversation();
+        fragmentManagerUtil.chAddFrag(chatFragment, "", false);
+        models = new ArrayList<>();
 
         easeNotifier = new EaseNotifier(this);
     }
 
-
     /**
-     * 初始化界面
+     * 自定义实现Handler，主要用于刷新UI操作
      */
-    private void initView() {
-        mInputEdit = (EditText) findViewById(R.id.et);
-        mSendBtn = (TextView) findViewById(R.id.tvSend);
-        recyclerView = (RecyclerView) findViewById(R.id.recylerView);
+    Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+                    EMMessage message = (EMMessage) msg.obj;
+                    // 这里只是简单的demo，也只是测试文字消息的收发，所以直接将body转为EMTextMessageBody去获取内容
+                    EMTextMessageBody body = (EMTextMessageBody) message.getBody();
 
-        recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        layoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter = new ChatAdapter());
-
-        // 设置发送按钮的点击事件
-        mSendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String content = mInputEdit.getText().toString().trim();
-                if (!TextUtils.isEmpty(content)) {
-                    mInputEdit.setText("");
-                    // 创建一条新消息，第一个参数为消息内容，第二个为接受者username:为对方用户或者群聊的id
-                    EMMessage message = EasyUtil.getEmManager().createTxtSendMessage(content, mChatId);
-
-                    //如果是群聊，设置chattype，默认是单聊
-//                    if (chatType == CHATTYPE_GROUP)
-//                        message.setChatType(ChatType.GroupChat);
-
-                    // 将新的消息内容和时间加入到下边
-//                    mContentText.setText(mContentText.getText()
-//                        + "\n发送："
-//                        + content
-//                        + " - time: "
-//                        + message.getMsgTime());
                     ArrayList<ItemModel> newLists = new ArrayList<>();
                     ChatModel model = new ChatModel();
-                    model.setContent(content);
-                    model.setIcon("http://img.my.csdn.net/uploads/201508/05/1438760758_6667.jpg");
-                    newLists.add(new ItemModel(ItemModel.CHAT_B, model));
-                    adapter.addAll(newLists);
+                    model.setContent(body.getMessage());
+                    model.setIcon("http://img.my.csdn.net/uploads/201508/05/1438760758_3497.jpg");
+                    newLists.add(new ItemModel(ItemModel.CHAT_A, model));
+                    chatFragment.addLists(newLists);
+                    break;
+            }
+        }
+    };
 
-                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-
-                    hideKeyBorad(mInputEdit);
-
-                    // 调用发送消息的方法
-                    EasyUtil.getEmManager().sendMessage(message);
-                    // 为消息设置回调
-                    message.setMessageStatusCallback(new EMCallBack() {
-                        @Override
-                        public void onSuccess() {
-                            // 消息发送成功，打印下日志，正常操作应该去刷新ui
-                            Log.i("yyl", "send message on success");
-                        }
-
-                        @Override
-                        public void onError(int i, String s) {
-                            // 消息发送失败，打印下失败的信息，正常操作应该去刷新ui
-                            Log.i("yyl", "send message on error " + i + " - " + s);
-                        }
-
-                        @Override
-                        public void onProgress(int i, String s) {
-                            // 消息发送进度，一般只有在发送图片和文件等消息才会有回调，txt不回调
-                        }
-                    });
+    public void initAddMsgLis() {
+        myEMMessageListener = new MyEMMessageListener() {
+            @Override
+            public void onMessageReceived(List<EMMessage> messages) {
+                super.onMessageReceived(messages);
+                // 循环遍历当前收到的消息
+                for (EMMessage message : messages) {
+                    Log.i("yyl", "收到新消息:" + message);
+                    if (message.getFrom().equals(mChatId)) {
+                        // 设置消息为已读
+                        mConversation.markMessageAsRead(message.getMsgId());
+                        // 因为消息监听回调这里是非ui线程，所以要用handler去更新ui
+                        Message msg = mHandler.obtainMessage();
+                        msg.what = 0;
+                        msg.obj = message;
+                        mHandler.sendMessage(msg);
+                    } else {
+                        // TODO 如果消息不是当前会话的消息发送通知栏通知
+                        easeNotifier.notify(message);
+                    }
                 }
             }
-        });
+
+            @Override
+            public void onCmdMessageReceived(List<EMMessage> messages) {
+                super.onCmdMessageReceived(messages);
+                for (int i = 0; i < messages.size(); i++) {
+                    // 透传消息
+                    EMMessage cmdMessage = messages.get(i);
+                    EMCmdMessageBody body = (EMCmdMessageBody) cmdMessage.getBody();
+                    Log.i("yyl", "收到 CMD 透传消息" + body.action());
+                }
+            }
+        };
+
+        // 添加消息监听
+        EasyUtil.getEmManager().addMessageListener(myEMMessageListener);
     }
 
     /**
      * 初始化会话对象，并且根据需要加载更多消息
      */
-    private void initConversation() {
+    public void initConversation() {
 
         /**
          * 初始化会话对象，这里有三个参数么，
@@ -156,7 +146,6 @@ public class ChatActivity2 extends AppCompatActivity {
          * 第三个表示如果会话不存在是否创建
          */
         mConversation = EasyUtil.getEmManager().getConversation(mChatId, null, true);
-//        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(mChatId);
 ////获取此会话的所有消息
 //        List<EMMessage> messages = conversation.getAllMessages();
         // 设置当前会话未读数为 0
@@ -183,105 +172,15 @@ public class ChatActivity2 extends AppCompatActivity {
                     model.setIcon("http://img.my.csdn.net/uploads/201508/05/1438760758_6667.jpg");
                     models.add(new ItemModel(ItemModel.CHAT_B, model));
                 }
-//                message = mConversation.getLastMessage();
-                // 将消息内容和时间显示出来
-//            mContentText.setText(
-//                "聊天记录：" + body.getMessage() + " - time: " + mConversation.getLastMessage()
-//                    .getMsgTime());
+                chatFragment.refresh(models);
             }
-
-            adapter.replaceAll(models);
-            recyclerView.scrollToPosition(models.size() - 1);
         }
     }
 
-    /**
-     * 自定义实现Handler，主要用于刷新UI操作
-     */
-    Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    EMMessage message = (EMMessage) msg.obj;
-                    // 这里只是简单的demo，也只是测试文字消息的收发，所以直接将body转为EMTextMessageBody去获取内容
-                    EMTextMessageBody body = (EMTextMessageBody) message.getBody();
-
-                    ArrayList<ItemModel> newLists = new ArrayList<>();
-                    ChatModel model = new ChatModel();
-                    model.setContent(body.getMessage());
-                    model.setIcon("http://img.my.csdn.net/uploads/201508/05/1438760758_3497.jpg");
-                    newLists.add(new ItemModel(ItemModel.CHAT_A, model));
-                    adapter.addAll(newLists);
-                    recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-                    // 将新的消息内容和时间加入到下边
-//                mContentText.setText(mContentText.getText()
-//                    + "\n接收："
-//                    + body.getMessage()
-//                    + " - time: "
-//                    + message.getMsgTime());
-                    break;
-            }
-        }
-    };
-
     @Override
-    protected void onResume() {
-        super.onResume();
-        // 添加消息监听
-        EasyUtil.getEmManager().addMessageListener(myEMMessageListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
         // 移除消息监听
         EasyUtil.getEmManager().removeMessageListener(myEMMessageListener);
-    }
-
-    private void initAddMsgLis() {
-        myEMMessageListener = new MyEMMessageListener() {
-            @Override
-            public void onMessageReceived(List<EMMessage> messages) {
-                super.onMessageReceived(messages);
-                // 循环遍历当前收到的消息
-                for (EMMessage message : messages) {
-                    Log.i("yyl", "收到新消息:" + message);
-                    if (message.getFrom().equals(mChatId)) {
-                        // 设置消息为已读
-                        mConversation.markMessageAsRead(message.getMsgId());
-
-                        // 因为消息监听回调这里是非ui线程，所以要用handler去更新ui
-                        Message msg = mHandler.obtainMessage();
-                        msg.what = 0;
-                        msg.obj = message;
-                        mHandler.sendMessage(msg);
-                    } else {
-                        // TODO 如果消息不是当前会话的消息发送通知栏通知
-                        easeNotifier.notify(message);
-                    }
-                }
-
-
-            }
-
-            @Override
-            public void onCmdMessageReceived(List<EMMessage> messages) {
-                super.onCmdMessageReceived(messages);
-                for (int i = 0; i < messages.size(); i++) {
-                    // 透传消息
-                    EMMessage cmdMessage = messages.get(i);
-                    EMCmdMessageBody body = (EMCmdMessageBody) cmdMessage.getBody();
-                    Log.i("yyl", "收到 CMD 透传消息" + body.action());
-                }
-            }
-        };
-    }
-
-    private void hideKeyBorad(View v) {
-        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm.isActive()) {
-            imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
-        }
     }
 }

@@ -104,6 +104,13 @@ public class GroupActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.btn_join_group).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GroupActivity.this, GroupSearchActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     void createGroup(final String[] members) {

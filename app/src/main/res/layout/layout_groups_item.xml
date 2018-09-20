@@ -44,4 +44,11 @@
         android:layout_height="wrap_content"
         tools:text="600"
         android:textSize="15dp"/>
+
+    <View
+        android:layout_below="@+id/tv_days_time"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_height="2dp"
+        android:background="#999999"/>
 </RelativeLayout>

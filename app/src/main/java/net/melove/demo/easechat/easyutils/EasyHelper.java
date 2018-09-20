@@ -12,6 +12,7 @@ import com.hyphenate.chat.EMTextMessageBody;
 import com.hyphenate.util.EMLog;
 
 import net.melove.demo.easechat.act.ChatActivity;
+import net.melove.demo.easechat.act.ChatActivity2;
 import net.melove.demo.easechat.bean.Constant;
 import net.melove.demo.easechat.easyutils.emlisenter.MyContactListener;
 import net.melove.demo.easechat.easyutils.emlisenter.MyEMMessageListener;
@@ -102,7 +103,7 @@ public class EasyHelper {
             @Override
             public Intent getLaunchIntent(EMMessage message) {
                 // you can set what activity you want display when user click the notification
-                Intent intent = new Intent(mContext, ChatActivity.class);
+                Intent intent = new Intent(mContext, ChatActivity2.class);
                 // open calling activity if there is call
 
                 EMMessage.ChatType chatType = message.getChatType();

@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".act.GroupSearchActivity">
-    <data>
-        <variable name="handlers" type="net.melove.demo.easechat.act.GroupSearchActivity.MyHandlers"/>
-    </data>
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/layout_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp_10"
-            android:onClick="@{handlers.onClickFriend}"
-            android:text="查找群"/>
-    </LinearLayout>
-</layout>
+        android:layout_height="match_parent"></FrameLayout>
+</LinearLayout>

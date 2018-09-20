@@ -26,16 +26,11 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
-
-    dataBinding {
-        enabled = true
-    }
 }
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
     api 'com.android.support:appcompat-v7:27.1.1'
-
     api 'com.hyphenate:hyphenate-sdk:3.4.0'
     api 'com.google.code.gson:gson:2.8+'
     api 'io.reactivex.rxjava2:rxjava:2.2.2'
@@ -44,4 +39,5 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.34'
     api 'com.android.support:design:27+'
     api 'com.squareup.picasso:picasso:2.3.2'
+    implementation project(':mylibrary')
 }

@@ -103,7 +103,7 @@
         <activity android:name=".act.GroupActivity" />
         <activity android:name=".act.FriendListActivity" />
         <activity android:name=".act.ChatGroupActivity" />
-        <activity android:name=".act.GroupDetailActivity" />
+        <activity android:name=".act.GroupMembersActivity" />
         <activity android:name=".act.GroupSearchActivity"></activity>
     </application>
 

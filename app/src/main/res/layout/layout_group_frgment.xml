@@ -5,21 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".act.GroupMembersActivity">
+    tools:context=".act.GroupSearchActivity">
 
-    <TextView
-        android:id="@+id/tv_group_name"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btn_search"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center" />
+        android:layout_margin="@dimen/dp_10"
+        android:text="查找群" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="5dp"
         android:background="@color/colorAccent" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recylerView"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"/>
 </LinearLayout>

@@ -157,7 +157,7 @@ public class ChatGroupActivity extends AppCompatActivity {
         btn_members.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ChatGroupActivity.this, GroupDetailActivity.class);
+                Intent intent = new Intent(ChatGroupActivity.this, GroupMembersActivity.class);
                 intent.putExtra("groupId", mChatId);
                 startActivity(intent);
             }

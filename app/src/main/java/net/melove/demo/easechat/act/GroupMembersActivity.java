@@ -25,7 +25,7 @@ import java.util.concurrent.Callable;
 import bolts.Continuation;
 import bolts.Task;
 
-public class GroupDetailActivity extends AppCompatActivity {
+public class GroupMembersActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private BaseQuickAdapter friendAdapter;
     private String groupId;
