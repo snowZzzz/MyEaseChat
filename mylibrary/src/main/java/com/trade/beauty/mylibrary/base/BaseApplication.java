@@ -1,10 +1,8 @@
-package net.melove.demo.easechat;
+package com.trade.beauty.mylibrary.base;
 
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-
-import net.melove.demo.easechat.base.EasyHelper;
 
 import java.util.Iterator;
 import java.util.List;
@@ -16,10 +14,14 @@ import java.util.List;
 public class BaseApplication extends Application {
 
     // 上下文菜单
-    private Context mContext;
+    public static Context mContext;
 
     // 记录是否已经初始化
     private boolean isInit = false;
+
+    public static Context getContext(){
+        return mContext;
+    }
 
     @Override public void onCreate() {
         super.onCreate();
@@ -49,13 +51,9 @@ public class BaseApplication extends Application {
             return;
         }
 
-        // 调用初始化方法初始化sdk
-        EasyHelper.getInstance().init(mContext);
-
         // 设置初始化已经完成
         isInit = true;
     }
-
 
 
     /**

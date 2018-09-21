@@ -107,17 +107,8 @@ public class ChatGroupActivity extends AppCompatActivity {
                     mInputEdit.setText("");
                     // 创建一条新消息，第一个参数为消息内容，第二个为接受者username:为对方用户或者群聊的id
                     EMMessage message = EasyUtil.getEmManager().createTxtSendMessage(content, mChatId);
-                    message.setChatType(EMMessage.ChatType.GroupChat);
-                    //如果是群聊，设置chattype，默认是单聊
-//                    if (chatType == CHATTYPE_GROUP)
-//                        message.setChatType(ChatType.GroupChat);
+                    message.setChatType(EMMessage.ChatType.GroupChat);    //如果是群聊，设置chattype，默认是单聊
 
-                    // 将新的消息内容和时间加入到下边
-//                    mContentText.setText(mContentText.getText()
-//                        + "\n发送："
-//                        + content
-//                        + " - time: "
-//                        + message.getMsgTime());
                     ArrayList<ItemModel> newLists = new ArrayList<>();
                     ChatModel model = new ChatModel();
                     model.setContent(content);
@@ -200,11 +191,6 @@ public class ChatGroupActivity extends AppCompatActivity {
                     model.setIcon("http://img.my.csdn.net/uploads/201508/05/1438760758_6667.jpg");
                     models.add(new ItemModel(ItemModel.CHAT_B, model));
                 }
-//                message = mConversation.getLastMessage();
-                // 将消息内容和时间显示出来
-//            mContentText.setText(
-//                "聊天记录：" + body.getMessage() + " - time: " + mConversation.getLastMessage()
-//                    .getMsgTime());
             }
 
             adapter.replaceAll(models);
@@ -231,12 +217,6 @@ public class ChatGroupActivity extends AppCompatActivity {
                     newLists.add(new ItemModel(ItemModel.CHAT_A, model));
                     adapter.addAll(newLists);
                     recyclerView.scrollToPosition(adapter.getItemCount() - 1);
-                    // 将新的消息内容和时间加入到下边
-//                mContentText.setText(mContentText.getText()
-//                    + "\n接收："
-//                    + body.getMessage()
-//                    + " - time: "
-//                    + message.getMsgTime());
                     break;
             }
         }

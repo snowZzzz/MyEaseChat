@@ -75,7 +75,7 @@ public class FriendListActivity extends AppCompatActivity {
                 List<FriendBean> frinds = friendAdapter.getData();
                 List<String> vars = new ArrayList<>();
                 if (frinds != null && frinds.size() > 0) {
-                    for (FriendBean friendBean : frinds){
+                    for (FriendBean friendBean : frinds) {
                         if (friendBean.isSelect()) {
                             vars.add(friendBean.getUserName());
                         }
@@ -84,6 +84,15 @@ public class FriendListActivity extends AppCompatActivity {
 
                 vars.add(EMClient.getInstance().getCurrentUser());
                 over(vars);
+            }
+        });
+
+        friendAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(FriendListActivity.this, ChatActivity.class);
+                intent.putExtra("ec_chat_id", frindLists.get(position).getUserName());
+                startActivity(intent);
             }
         });
     }

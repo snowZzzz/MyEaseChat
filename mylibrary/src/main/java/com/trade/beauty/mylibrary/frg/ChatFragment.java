@@ -7,8 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hyphenate.EMCallBack;
@@ -31,6 +35,8 @@ public class ChatFragment extends BaseFragment {
     private EditText mInputEdit;
     // 发送按钮
     private TextView mSendBtn;
+    private TextView tvAdd;
+    private LinearLayout layout_bottom;
 
     private RecyclerView recyclerView;
     private ChatAdapter adapter;
@@ -38,6 +44,7 @@ public class ChatFragment extends BaseFragment {
     // 当前聊天的 ID
     private String mChatId;
     private String currUsername;
+    private boolean isShowBottom = false;
 
     @Override
     protected void init(Bundle savedInstanceState) {
@@ -48,6 +55,7 @@ public class ChatFragment extends BaseFragment {
         adapter = new ChatAdapter();
         initView();
         mOnAddLisenterEvent.addEvent();
+
     }
 
     @Override
@@ -59,6 +67,9 @@ public class ChatFragment extends BaseFragment {
     protected void initView() {
         mInputEdit = (EditText) fragmentView.findViewById(R.id.et);
         mSendBtn = (TextView) fragmentView.findViewById(R.id.tvSend);
+        tvAdd = fragmentView.findViewById(R.id.tvAdd);
+        layout_bottom = fragmentView.findViewById(R.id.layout_bottom);
+
         recyclerView = (RecyclerView) fragmentView.findViewById(R.id.recylerView);
 
         recyclerView.setHasFixedSize(true);
@@ -77,16 +88,6 @@ public class ChatFragment extends BaseFragment {
                     // 创建一条新消息，第一个参数为消息内容，第二个为接受者username:为对方用户或者群聊的id
                     EMMessage message = EasyUtil.getEmManager().createTxtSendMessage(content, mChatId);
 
-                    //如果是群聊，设置chattype，默认是单聊
-//                    if (chatType == CHATTYPE_GROUP)
-//                        message.setChatType(ChatType.GroupChat);
-
-                    // 将新的消息内容和时间加入到下边
-//                    mContentText.setText(mContentText.getText()
-//                        + "\n发送："
-//                        + content
-//                        + " - time: "
-//                        + message.getMsgTime());
                     ArrayList<ItemModel> newLists = new ArrayList<>();
                     ChatModel model = new ChatModel();
                     model.setContent(content);
@@ -122,6 +123,23 @@ public class ChatFragment extends BaseFragment {
                 }
             }
         });
+
+        tvAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isShowBottom = !isShowBottom;
+                layout_bottom.setVisibility(isShowBottom ? View.VISIBLE : View.GONE);
+//                if (isShowBottom) {
+//                    Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_in);
+//                    LayoutAnimationController controller = new LayoutAnimationController(animation);
+//                    layout_bottom.setLayoutAnimation(controller);
+//                } else {
+//                    Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.anim_out);
+//                    LayoutAnimationController controller = new LayoutAnimationController(animation);
+//                    layout_bottom.setLayoutAnimation(controller);
+//                }
+            }
+        });
     }
 
     public void addLists(ArrayList<ItemModel> newLists) {
@@ -143,11 +161,11 @@ public class ChatFragment extends BaseFragment {
 
     private OnAddLisenterEvent mOnAddLisenterEvent;
 
-    public interface OnAddLisenterEvent{
+    public interface OnAddLisenterEvent {
         void addEvent();
     }
 
-    public void setOnAddLisenterEvent(OnAddLisenterEvent onAddLisenterEvent){
+    public void setOnAddLisenterEvent(OnAddLisenterEvent onAddLisenterEvent) {
         this.mOnAddLisenterEvent = onAddLisenterEvent;
     }
 }
